@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotto 6/45</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Outfit:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg:             #fafafa;
+            --color-surface:        #ffffff;
+            --color-surface-raised: #f5f5f5;
+            --color-surface-hover:  #eeeeee;
+            --color-border:         rgba(0,0,0,0.08);
+            --color-border-hover:   rgba(0,0,0,0.15);
+            --color-text:           #1a1a1a;
+            --color-text-secondary: #555555;
+            --color-text-muted:     #888888;
+            --color-accent:         #0d6e4f;
+            --color-accent-dim:     #0b5e43;
+            --color-accent-soft:    rgba(13, 110, 79, 0.08);
+            --color-success:        #16a34a;
+            --color-warning:        #d97706;
+            --color-danger:         #dc2626;
+            --font-display:         'Playfair Display', Georgia, serif;
+            --font-sans:            'Outfit', -apple-system, sans-serif;
+            --font-mono:            'IBM Plex Mono', 'SF Mono', monospace;
+            --radius-sm:            8px;
+            --radius-md:            12px;
+            --radius-lg:            16px;
+            --radius-xl:            20px;
+            --radius-pill:          100px;
+            --shadow-hover:         0 2px 8px rgba(0,0,0,0.06);
+            --shadow-raised:        0 4px 16px rgba(13,110,79,0.20);
+            --transition:           0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1680px;
+            margin: 0 auto;
+            padding: 28px 32px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 14px 10px;
+            }
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 5vw, 3rem);
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--color-accent);
+        }
+
+        .subtitle {
+            color: var(--color-text-secondary);
+            margin-bottom: 32px;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: var(--color-border-hover);
+        }
+
+        .card-title {
+            font-family: var(--font-sans);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--color-text);
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+            margin-bottom: 6px;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--color-accent-soft);
+        }
+
+        .numbers-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .number-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-pill);
+            background: var(--color-accent-soft);
+            color: var(--color-accent);
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            font-weight: 500;
+            border: 2px solid var(--color-accent);
+        }
+
+        .number-pill.match {
+            background: var(--color-success);
+            color: white;
+            border-color: var(--color-success);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 28px;
+            border: none;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .button-primary {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: var(--color-accent-dim);
+            box-shadow: var(--shadow-raised);
+        }
+
+        .button-secondary {
+            background: var(--color-surface-raised);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .button-secondary:hover {
+            background: var(--color-surface-hover);
+            border-color: var(--color-border-hover);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .result {
+            background: var(--color-accent-soft);
+            border-left: 4px solid var(--color-accent);
+            padding: 16px;
+            border-radius: var(--radius-md);
+            margin-top: 16px;
+        }
+
+        .result-title {
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-family: var(--font-mono);
+            font-size: 2.8rem;
+            font-weight: 500;
+            color: var(--color-accent);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .history {
+            margin-top: 24px;
+        }
+
+        .history-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: var(--color-surface-raised);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            font-size: 0.85rem;
+        }
+
+        .history-item-time {
+            color: var(--color-text-muted);
+            font-size: 0.7rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .history-item-numbers {
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+
+        .footer {
+            border-top: 1px solid var(--color-border);
+            padding: 16px 0;
+            margin-top: 48px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .footer a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 12px;
+            line-height: 1.4;
+            color: var(--color-text-muted);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--color-text-muted);
+            padding: 24px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--color-surface-raised);
+            padding: 16px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid var(--color-border);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--color-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍀 Lotto 6/45</h1>
+        <p class="subtitle">Deine persönliche Lotto-Ziehung</p>
+
+        <!-- Meine Zahlen -->
+        <div class="card">
+            <div class="card-title">Meine Zahlen</div>
+            <div class="input-group">
+                <label class="input-label">6 Zahlen eingeben (1-45)</label>
+                <input type="text" id="myNumbers" placeholder="z.B. 5 12 23 34 41 45" />
+                <button class="button button-primary" onclick="parseMyNumbers()" style="margin-top: 12px;">Speichern</button>
+            </div>
+            <div id="myNumbersDisplay" class="numbers-display"></div>
+        </div>
+
+        <!-- Gewinnzahlen -->
+        <div class="card">
+            <div class="card-title">Gewinnzahlen</div>
+            <div class="input-group">
+                <label class="input-label">6 Gewinnzahlen eingeben (1-45)</label>
+                <input type="text" id="winningNumbers" placeholder="z.B. 5 12 23 34 41 45" />
+                <button class="button button-primary" onclick="parseWinningNumbers()" style="margin-top: 12px;">Speichern</button>
+                <button class="button button-secondary" onclick="generateWinningNumbers()" style="margin-top: 12px; margin-left: 8px;">Zufällig generieren</button>
+            </div>
+            <div id="winningNumbersDisplay" class="numbers-display"></div>
+        </div>
+
+        <!-- Ergebnis -->
+        <div class="card">
+            <div class="card-title">Ergebnis</div>
+            <button class="button button-primary" onclick="checkMatch()">Treffer prüfen</button>
+            <div id="matchResult"></div>
+        </div>
+
+        <!-- Statistiken -->
+        <div class="card">
+            <div class="card-title">Statistiken</div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-label">Spiele</div>
+                    <div class="stat-value" id="statGames">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Treffer (6er)</div>
+                    <div class="stat-value" id="statMatches">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Best. Treffer</div>
+                    <div class="stat-value" id="statBest">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historie -->
+        <div class="card">
+            <div class="card-title">Historie (letzte 10)</div>
+            <button class="button button-secondary" onclick="clearHistory()">Historie löschen</button>
+            <div id="historyList" class="history-list">
+                <div class="empty-state">Keine Spiele noch.</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            © 2026 <a href="mailto:mthalhamer@thalhamer.com">Markus O. Thalhamer</a> · Lotto 6/45
+            <p class="disclaimer">
+                Die Inhalte dieser Seite dienen ausschließlich zu Informationszwecken und stellen keine Anlage-, Rechts- oder Steuerberatung dar. Für die Richtigkeit, Vollständigkeit und Aktualität der Angaben wird keine Haftung übernommen.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let myNumbers = [];
+        let winningNumbers = [];
+        let history = JSON.parse(localStorage.getItem('lottoHistory')) || [];
+
+        function generateRandomNumbers(count = 6, max = 45) {
+            const numbers = new Set();
+            while (numbers.size < count) {
+                numbers.add(Math.floor(Math.random() * max) + 1);
+            }
+            return Array.from(numbers).sort((a, b) => a - b);
+        }
+
+        function parseMyNumbers() {
+            const input = document.getElementById('myNumbers').value.trim();
+            if (!input) {
+                alert('Bitte geben Sie 6 Zahlen ein!');
+                return;
+            }
+            const numbers = input.split(/\s+/).map(n => parseInt(n)).filter(n => !isNaN(n) && n >= 1 && n <= 45);
+            if (numbers.length !== 6) {
+                alert('Bitte geben Sie genau 6 Zahlen zwischen 1 und 45 ein!');
+                return;
+            }
+            myNumbers = [...new Set(numbers)].sort((a, b) => a - b);
+            if (myNumbers.length !== 6) {
+                alert('Die Zahlen dürfen sich nicht wiederholen!');
+                return;
+            }
+            displayNumbers('myNumbersDisplay', myNumbers);
+            document.getElementById('myNumbers').value = '';
+        }
+
+        function parseWinningNumbers() {
+            const input = document.getElementById('winningNumbers').value.trim();
+            if (!input) {
+                alert('Bitte geben Sie 6 Zahlen ein!');
+                return;
+            }
+            const numbers = input.split(/\s+/).map(n => parseInt(n)).filter(n => !isNaN(n) && n >= 1 && n <= 45);
+            if (numbers.length !== 6) {
+                alert('Bitte geben Sie genau 6 Zahlen zwischen 1 und 45 ein!');
+                return;
+            }
+            winningNumbers = [...new Set(numbers)].sort((a, b) => a - b);
+            if (winningNumbers.length !== 6) {
+                alert('Die Zahlen dürfen sich nicht wiederholen!');
+                return;
+            }
+            displayNumbers('winningNumbersDisplay', winningNumbers);
+            document.getElementById('winningNumbers').value = '';
+        }
+
+        function generateWinningNumbers() {
+            winningNumbers = generateRandomNumbers();
+            displayNumbers('winningNumbersDisplay', winningNumbers);
+        }
+
+        function displayNumbers(elementId, numbers) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = numbers.map(n => `<div class="number-pill">${n}</div>`).join('');
+        }
+
+        function checkMatch() {
+            if (myNumbers.length !== 6) {
+                alert('Bitte geben Sie zuerst Ihre 6 Zahlen ein!');
+                return;
+            }
+            if (winningNumbers.length !== 6) {
+                alert('Bitte geben Sie zuerst die 6 Gewinnzahlen ein!');
+                return;
+            }
+
+            const matches = myNumbers.filter(n => winningNumbers.includes(n));
+            const matchCount = matches.length;
+
+            const resultDiv = document.getElementById('matchResult');
+            resultDiv.innerHTML = `
+                <div class="result">
+                    <div class="result-title">Treffer</div>
+                    <div class="result-value">${matchCount}</div>
+                    <div class="numbers-display">
+                        ${myNumbers.map(n => `<div class="number-pill ${matches.includes(n) ? 'match' : ''}">${n}</div>`).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Add to history
+            const entry = {
+                timestamp: new Date().toISOString(),
+                myNumbers: myNumbers,
+                winningNumbers: winningNumbers,
+                matches: matchCount
+            };
+            history.unshift(entry);
+            if (history.length > 10) history.pop();
+            localStorage.setItem('lottoHistory', JSON.stringify(history));
+
+            updateHistory();
+            updateStats();
+        }
+
+        function updateHistory() {
+            const historyList = document.getElementById('historyList');
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="empty-state">Keine Spiele noch.</div>';
+                return;
+            }
+            historyList.innerHTML = history.map(entry => {
+                const time = new Date(entry.timestamp).toLocaleString('de-DE');
+                return `
+                    <div class="history-item">
+                        <span class="history-item-time">${time}</span>
+                        <span class="history-item-numbers">Meine: ${entry.myNumbers.join(', ')} → ${entry.matches} Treffer</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateStats() {
+            const totalGames = history.length;
+            const totalMatches = history.filter(e => e.matches === 6).length;
+            const bestMatch = history.length > 0 ? Math.max(...history.map(e => e.matches)) : 0;
+
+            document.getElementById('statGames').textContent = totalGames;
+            document.getElementById('statMatches').textContent = totalMatches;
+            document.getElementById('statBest').textContent = bestMatch;
+        }
+
+        function clearHistory() {
+            if (confirm('Möchtest du die gesamte Historie löschen?')) {
+                history = [];
+                localStorage.removeItem('lottoHistory');
+                updateHistory();
+                updateStats();
+            }
+        }
+
+        // Initialize
+        updateHistory();
+        updateStats();
+    </script>
+</body>
+</html>
