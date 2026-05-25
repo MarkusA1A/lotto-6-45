@@ -87,7 +87,7 @@
 
         .card.hero-card {
             text-align: center;
-            padding: 48px 24px;
+            padding: 32px 24px;
             background: linear-gradient(135deg, rgba(13, 110, 79, 0.05) 0%, rgba(13, 110, 79, 0.02) 100%);
         }
 
@@ -99,62 +99,118 @@
             color: var(--color-text);
         }
 
-        .canvas-container {
+        /* Animation Container */
+        .animation-container {
             width: 100%;
-            height: 400px;
+            height: 320px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 32px 0;
+            margin: 24px 0;
             border-radius: var(--radius-lg);
             background: linear-gradient(135deg, rgba(13, 110, 79, 0.02) 0%, rgba(13, 110, 79, 0.05) 100%);
             border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
         }
 
-        canvas {
-            max-width: 100%;
-            height: auto;
+        .balls-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: flex-end;
+            width: 100%;
+            height: 100%;
+            padding: 40px 20px 20px;
+            flex-wrap: wrap;
+        }
+
+        .ball {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            background: radial-gradient(circle at 30% 30%, #2dad6f, #0d6e4f, #052d1f);
+            box-shadow: 
+                0 8px 16px rgba(13, 110, 79, 0.3),
+                inset -2px -2px 4px rgba(0, 0, 0, 0.2),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(100px) scale(0.5);
+            animation: ballFall 0.6s ease-out forwards;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ball:nth-child(1) { animation-delay: 0s; }
+        .ball:nth-child(2) { animation-delay: 0.1s; }
+        .ball:nth-child(3) { animation-delay: 0.2s; }
+        .ball:nth-child(4) { animation-delay: 0.3s; }
+        .ball:nth-child(5) { animation-delay: 0.4s; }
+        .ball:nth-child(6) { animation-delay: 0.5s; }
+
+        @keyframes ballFall {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) scale(0.5) rotateZ(-180deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotateZ(0deg);
+            }
+        }
+
+        @keyframes ballBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .ball.bounce {
+            animation: ballBounce 0.4s ease-in-out;
         }
 
         .numbers-display {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin: 32px 0;
+            margin: 20px 0;
             justify-content: center;
         }
 
         .numbers-display.large {
-            gap: 20px;
-            margin: 24px 0;
+            gap: 16px;
+            margin: 16px 0;
         }
 
         .number-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
+            width: 54px;
+            height: 54px;
             border-radius: var(--radius-pill);
             background: var(--color-accent);
             color: white;
             font-family: var(--font-mono);
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: 600;
             font-variant-numeric: tabular-nums;
             box-shadow: var(--shadow-raised);
             animation: popIn 0.3s ease-out;
         }
 
-        .numbers-display.large .number-pill {
-            width: 60px;
-            height: 60px;
-            font-size: 1.4rem;
-        }
-
         @keyframes popIn {
             0% {
-                transform: scale(0.8);
+                transform: scale(0.6);
                 opacity: 0;
             }
             100% {
@@ -203,9 +259,9 @@
         }
 
         .generate-btn {
-            margin-top: 24px;
-            padding: 16px 40px;
-            font-size: 1.1rem;
+            margin-top: 16px;
+            padding: 14px 36px;
+            font-size: 1rem;
         }
 
         .history-list {
@@ -219,7 +275,7 @@
 
         .history-item {
             background: var(--color-surface-raised);
-            padding: 14px;
+            padding: 12px;
             border-radius: var(--radius-md);
             border: 1px solid var(--color-border);
             font-size: 0.85rem;
@@ -227,17 +283,18 @@
 
         .history-item-time {
             color: var(--color-text-muted);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             display: block;
             margin-bottom: 6px;
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .history-item-numbers {
             font-family: var(--font-mono);
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--color-accent);
             font-variant-numeric: tabular-nums;
         }
@@ -274,9 +331,26 @@
             color: var(--color-text-muted);
         }
 
-        @media (max-width: 768px) {
-            .canvas-container {
-                height: 300px;
+        @media (max-width: 600px) {
+            .animation-container {
+                height: 280px;
+            }
+
+            .ball {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .number-pill {
+                width: 48px;
+                height: 48px;
+                font-size: 1.1rem;
+            }
+
+            .generate-btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -286,10 +360,10 @@
         <h1>Lotto 6/45</h1>
         <p class="subtitle">Zufällige Zahlenziehung</p>
 
-        <!-- Main Card with Canvas -->
+        <!-- Main Card with Animation -->
         <div class="card hero-card">
-            <div class="canvas-container">
-                <canvas id="ballCanvas"></canvas>
+            <div class="animation-container">
+                <div class="balls-container" id="ballsContainer"></div>
             </div>
             <div id="numbersDisplay" class="numbers-display large"></div>
             <button class="button button-primary generate-btn" onclick="generateNumbers()">Zahlen generieren</button>
@@ -315,144 +389,6 @@
 
     <script>
         let history = JSON.parse(localStorage.getItem('lottoHistory')) || [];
-        const canvas = document.getElementById('ballCanvas');
-        const ctx = canvas.getContext('2d');
-
-        // Canvas setup
-        function resizeCanvas() {
-            const container = canvas.parentElement;
-            canvas.width = Math.min(container.offsetWidth - 40, 500);
-            canvas.height = 350;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        // Ball animation
-        class Ball {
-            constructor(x, y, number) {
-                this.x = x;
-                this.y = y;
-                this.number = number;
-                this.vx = (Math.random() - 0.5) * 15;
-                this.vy = (Math.random() - 0.5) * 15 - 10;
-                this.radius = 25;
-                this.gravity = 0.5;
-                this.friction = 0.98;
-                this.bounceElasticity = 0.7;
-            }
-
-            update() {
-                this.vy += this.gravity;
-                this.x += this.vx;
-                this.y += this.vy;
-
-                this.vx *= this.friction;
-                this.vy *= this.friction;
-
-                // Bounce off walls
-                if (this.x - this.radius < 0) {
-                    this.x = this.radius;
-                    this.vx *= -this.bounceElasticity;
-                }
-                if (this.x + this.radius > canvas.width) {
-                    this.x = canvas.width - this.radius;
-                    this.vx *= -this.bounceElasticity;
-                }
-
-                // Bounce off floor
-                if (this.y + this.radius > canvas.height) {
-                    this.y = canvas.height - this.radius;
-                    this.vy *= -this.bounceElasticity;
-                }
-            }
-
-            draw() {
-                // Ball shadow
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-                ctx.beginPath();
-                ctx.ellipse(this.x, canvas.height - 10, this.radius * 0.8, 8, 0, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Main ball (gradient)
-                const gradient = ctx.createRadialGradient(
-                    this.x - this.radius / 3,
-                    this.y - this.radius / 3,
-                    0,
-                    this.x,
-                    this.y,
-                    this.radius
-                );
-                gradient.addColorStop(0, '#1a9e4f');
-                gradient.addColorStop(0.6, '#0d6e4f');
-                gradient.addColorStop(1, '#052d1f');
-
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Highlight
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.beginPath();
-                ctx.arc(this.x - this.radius / 3, this.y - this.radius / 3, this.radius / 3, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Number
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 18px "IBM Plex Mono"';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(this.number.toString(), this.x, this.y);
-
-                // Border
-                ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.stroke();
-            }
-        }
-
-        let balls = [];
-        let animationRunning = false;
-
-        function animateBalls(numbers) {
-            balls = [];
-            const centerX = canvas.width / 2;
-            const startY = -30;
-
-            numbers.forEach((num, index) => {
-                setTimeout(() => {
-                    balls.push(new Ball(centerX + (Math.random() - 0.5) * 40, startY, num));
-                }, index * 100);
-            });
-
-            animationRunning = true;
-            animate();
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            balls.forEach(ball => {
-                ball.update();
-                ball.draw();
-            });
-
-            // Check if animation is still needed
-            let stillMoving = false;
-            balls.forEach(ball => {
-                if (Math.abs(ball.vx) > 0.1 || Math.abs(ball.vy) > 0.1 || ball.y < canvas.height - ball.radius) {
-                    stillMoving = true;
-                }
-            });
-
-            if (stillMoving) {
-                requestAnimationFrame(animate);
-            } else {
-                animationRunning = false;
-            }
-        }
 
         function generateRandomNumbers(count = 6, max = 45) {
             const numbers = new Set();
@@ -462,10 +398,17 @@
             return Array.from(numbers).sort((a, b) => a - b);
         }
 
+        function animateBalls(numbers) {
+            const container = document.getElementById('ballsContainer');
+            container.innerHTML = numbers.map(num => 
+                `<div class="ball">${num}</div>`
+            ).join('');
+        }
+
         function generateNumbers() {
             const numbers = generateRandomNumbers();
-            displayNumbers('numbersDisplay', numbers);
             animateBalls(numbers);
+            displayNumbers('numbersDisplay', numbers);
 
             // Add to history
             const entry = {
@@ -506,7 +449,7 @@
                 history = [];
                 localStorage.removeItem('lottoHistory');
                 updateHistory();
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                document.getElementById('ballsContainer').innerHTML = '';
                 document.getElementById('numbersDisplay').innerHTML = '';
             }
         }
