@@ -20,8 +20,6 @@
             --color-accent-dim:     #0b5e43;
             --color-accent-soft:    rgba(13, 110, 79, 0.08);
             --color-success:        #16a34a;
-            --color-warning:        #d97706;
-            --color-danger:         #dc2626;
             --font-display:         'Playfair Display', Georgia, serif;
             --font-sans:            'Outfit', -apple-system, sans-serif;
             --font-mono:            'IBM Plex Mono', 'SF Mono', monospace;
@@ -89,6 +87,12 @@
             border-color: var(--color-border-hover);
         }
 
+        .card.hero-card {
+            text-align: center;
+            padding: 48px 24px;
+            background: linear-gradient(135deg, rgba(13, 110, 79, 0.05) 0%, rgba(13, 110, 79, 0.02) 100%);
+        }
+
         .card-title {
             font-family: var(--font-sans);
             font-size: 1.3rem;
@@ -97,63 +101,51 @@
             color: var(--color-text);
         }
 
-        .input-group {
-            margin-bottom: 16px;
-        }
-
-        .input-label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--color-text-secondary);
-            margin-bottom: 6px;
-        }
-
-        input[type="number"],
-        input[type="text"] {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        input[type="number"]:focus,
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 3px var(--color-accent-soft);
-        }
-
         .numbers-display {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin: 16px 0;
+            gap: 12px;
+            margin: 32px 0;
+            justify-content: center;
+        }
+
+        .numbers-display.large {
+            gap: 20px;
+            margin: 48px 0;
         }
 
         .number-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
+            width: 60px;
+            height: 60px;
             border-radius: var(--radius-pill);
-            background: var(--color-accent-soft);
-            color: var(--color-accent);
+            background: var(--color-accent);
+            color: white;
             font-family: var(--font-mono);
-            font-size: 1.2rem;
-            font-weight: 500;
-            border: 2px solid var(--color-accent);
+            font-size: 1.6rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            box-shadow: var(--shadow-raised);
+            animation: popIn 0.3s ease-out;
         }
 
-        .number-pill.match {
-            background: var(--color-success);
-            color: white;
-            border-color: var(--color-success);
+        .numbers-display.large .number-pill {
+            width: 80px;
+            height: 80px;
+            font-size: 2.2rem;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .button {
@@ -177,6 +169,11 @@
         .button-primary:hover {
             background: var(--color-accent-dim);
             box-shadow: var(--shadow-raised);
+            transform: translateY(-2px);
+        }
+
+        .button-primary:active {
+            transform: translateY(0);
         }
 
         .button-secondary {
@@ -190,56 +187,24 @@
             border-color: var(--color-border-hover);
         }
 
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .result {
-            background: var(--color-accent-soft);
-            border-left: 4px solid var(--color-accent);
-            padding: 16px;
-            border-radius: var(--radius-md);
-            margin-top: 16px;
-        }
-
-        .result-title {
-            font-weight: 600;
-            color: var(--color-accent);
-            margin-bottom: 8px;
-        }
-
-        .result-value {
-            font-family: var(--font-mono);
-            font-size: 2.8rem;
-            font-weight: 500;
-            color: var(--color-accent);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .history {
+        .generate-btn {
             margin-top: 24px;
-        }
-
-        .history-title {
+            padding: 16px 40px;
             font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
         }
 
         .history-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
+            margin: 16px 0;
         }
 
         .history-item {
             background: var(--color-surface-raised);
-            padding: 12px;
+            padding: 14px;
             border-radius: var(--radius-md);
             border: 1px solid var(--color-border);
             font-size: 0.85rem;
@@ -249,12 +214,24 @@
             color: var(--color-text-muted);
             font-size: 0.7rem;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
         .history-item-numbers {
             font-family: var(--font-mono);
             font-weight: 500;
+            font-size: 1rem;
+            color: var(--color-accent);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--color-text-muted);
+            padding: 24px;
+            font-style: italic;
         }
 
         .footer {
@@ -281,105 +258,26 @@
             line-height: 1.4;
             color: var(--color-text-muted);
         }
-
-        .empty-state {
-            text-align: center;
-            color: var(--color-text-muted);
-            padding: 24px;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 16px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
-            background: var(--color-surface-raised);
-            padding: 16px;
-            border-radius: var(--radius-md);
-            text-align: center;
-            border: 1px solid var(--color-border);
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            color: var(--color-text-secondary);
-            margin-bottom: 8px;
-        }
-
-        .stat-value {
-            font-family: var(--font-mono);
-            font-size: 1.8rem;
-            font-weight: 500;
-            color: var(--color-accent);
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🍀 Lotto 6/45</h1>
-        <p class="subtitle">Deine persönliche Lotto-Ziehung</p>
+        <h1>Lotto 6/45</h1>
+        <p class="subtitle">Zufällige Zahlenziehung</p>
 
-        <!-- Meine Zahlen -->
-        <div class="card">
-            <div class="card-title">Meine Zahlen</div>
-            <div class="input-group">
-                <label class="input-label">6 Zahlen eingeben (1-45)</label>
-                <input type="text" id="myNumbers" placeholder="z.B. 5 12 23 34 41 45" />
-                <button class="button button-primary" onclick="parseMyNumbers()" style="margin-top: 12px;">Speichern</button>
-            </div>
-            <div id="myNumbersDisplay" class="numbers-display"></div>
-        </div>
-
-        <!-- Gewinnzahlen -->
-        <div class="card">
-            <div class="card-title">Gewinnzahlen</div>
-            <div class="input-group">
-                <label class="input-label">6 Gewinnzahlen eingeben (1-45)</label>
-                <input type="text" id="winningNumbers" placeholder="z.B. 5 12 23 34 41 45" />
-                <button class="button button-primary" onclick="parseWinningNumbers()" style="margin-top: 12px;">Speichern</button>
-                <button class="button button-secondary" onclick="generateWinningNumbers()" style="margin-top: 12px; margin-left: 8px;">Zufällig generieren</button>
-            </div>
-            <div id="winningNumbersDisplay" class="numbers-display"></div>
-        </div>
-
-        <!-- Ergebnis -->
-        <div class="card">
-            <div class="card-title">Ergebnis</div>
-            <button class="button button-primary" onclick="checkMatch()">Treffer prüfen</button>
-            <div id="matchResult"></div>
-        </div>
-
-        <!-- Statistiken -->
-        <div class="card">
-            <div class="card-title">Statistiken</div>
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-label">Spiele</div>
-                    <div class="stat-value" id="statGames">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Treffer (6er)</div>
-                    <div class="stat-value" id="statMatches">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Best. Treffer</div>
-                    <div class="stat-value" id="statBest">0</div>
-                </div>
-            </div>
+        <!-- Main Card -->
+        <div class="card hero-card">
+            <div id="numbersDisplay" class="numbers-display large"></div>
+            <button class="button button-primary generate-btn" onclick="generateNumbers()">Zahlen generieren</button>
         </div>
 
         <!-- Historie -->
         <div class="card">
-            <div class="card-title">Historie (letzte 10)</div>
-            <button class="button button-secondary" onclick="clearHistory()">Historie löschen</button>
+            <div class="card-title">Letzte Ziehungen</div>
             <div id="historyList" class="history-list">
-                <div class="empty-state">Keine Spiele noch.</div>
+                <div class="empty-state">Noch keine Ziehungen.</div>
             </div>
+            <button class="button button-secondary" onclick="clearHistory()" style="margin-top: 16px; width: 100%;">Historie löschen</button>
         </div>
 
         <!-- Footer -->
@@ -392,8 +290,6 @@
     </div>
 
     <script>
-        let myNumbers = [];
-        let winningNumbers = [];
         let history = JSON.parse(localStorage.getItem('lottoHistory')) || [];
 
         function generateRandomNumbers(count = 6, max = 45) {
@@ -404,49 +300,20 @@
             return Array.from(numbers).sort((a, b) => a - b);
         }
 
-        function parseMyNumbers() {
-            const input = document.getElementById('myNumbers').value.trim();
-            if (!input) {
-                alert('Bitte geben Sie 6 Zahlen ein!');
-                return;
-            }
-            const numbers = input.split(/\s+/).map(n => parseInt(n)).filter(n => !isNaN(n) && n >= 1 && n <= 45);
-            if (numbers.length !== 6) {
-                alert('Bitte geben Sie genau 6 Zahlen zwischen 1 und 45 ein!');
-                return;
-            }
-            myNumbers = [...new Set(numbers)].sort((a, b) => a - b);
-            if (myNumbers.length !== 6) {
-                alert('Die Zahlen dürfen sich nicht wiederholen!');
-                return;
-            }
-            displayNumbers('myNumbersDisplay', myNumbers);
-            document.getElementById('myNumbers').value = '';
-        }
+        function generateNumbers() {
+            const numbers = generateRandomNumbers();
+            displayNumbers('numbersDisplay', numbers);
 
-        function parseWinningNumbers() {
-            const input = document.getElementById('winningNumbers').value.trim();
-            if (!input) {
-                alert('Bitte geben Sie 6 Zahlen ein!');
-                return;
-            }
-            const numbers = input.split(/\s+/).map(n => parseInt(n)).filter(n => !isNaN(n) && n >= 1 && n <= 45);
-            if (numbers.length !== 6) {
-                alert('Bitte geben Sie genau 6 Zahlen zwischen 1 und 45 ein!');
-                return;
-            }
-            winningNumbers = [...new Set(numbers)].sort((a, b) => a - b);
-            if (winningNumbers.length !== 6) {
-                alert('Die Zahlen dürfen sich nicht wiederholen!');
-                return;
-            }
-            displayNumbers('winningNumbersDisplay', winningNumbers);
-            document.getElementById('winningNumbers').value = '';
-        }
+            // Add to history
+            const entry = {
+                timestamp: new Date().toISOString(),
+                numbers: numbers
+            };
+            history.unshift(entry);
+            if (history.length > 20) history.pop();
+            localStorage.setItem('lottoHistory', JSON.stringify(history));
 
-        function generateWinningNumbers() {
-            winningNumbers = generateRandomNumbers();
-            displayNumbers('winningNumbersDisplay', winningNumbers);
+            updateHistory();
         }
 
         function displayNumbers(elementId, numbers) {
@@ -454,70 +321,21 @@
             element.innerHTML = numbers.map(n => `<div class="number-pill">${n}</div>`).join('');
         }
 
-        function checkMatch() {
-            if (myNumbers.length !== 6) {
-                alert('Bitte geben Sie zuerst Ihre 6 Zahlen ein!');
-                return;
-            }
-            if (winningNumbers.length !== 6) {
-                alert('Bitte geben Sie zuerst die 6 Gewinnzahlen ein!');
-                return;
-            }
-
-            const matches = myNumbers.filter(n => winningNumbers.includes(n));
-            const matchCount = matches.length;
-
-            const resultDiv = document.getElementById('matchResult');
-            resultDiv.innerHTML = `
-                <div class="result">
-                    <div class="result-title">Treffer</div>
-                    <div class="result-value">${matchCount}</div>
-                    <div class="numbers-display">
-                        ${myNumbers.map(n => `<div class="number-pill ${matches.includes(n) ? 'match' : ''}">${n}</div>`).join('')}
-                    </div>
-                </div>
-            `;
-
-            // Add to history
-            const entry = {
-                timestamp: new Date().toISOString(),
-                myNumbers: myNumbers,
-                winningNumbers: winningNumbers,
-                matches: matchCount
-            };
-            history.unshift(entry);
-            if (history.length > 10) history.pop();
-            localStorage.setItem('lottoHistory', JSON.stringify(history));
-
-            updateHistory();
-            updateStats();
-        }
-
         function updateHistory() {
             const historyList = document.getElementById('historyList');
             if (history.length === 0) {
-                historyList.innerHTML = '<div class="empty-state">Keine Spiele noch.</div>';
+                historyList.innerHTML = '<div class="empty-state">Noch keine Ziehungen.</div>';
                 return;
             }
-            historyList.innerHTML = history.map(entry => {
+            historyList.innerHTML = history.map((entry, index) => {
                 const time = new Date(entry.timestamp).toLocaleString('de-DE');
                 return `
                     <div class="history-item">
-                        <span class="history-item-time">${time}</span>
-                        <span class="history-item-numbers">Meine: ${entry.myNumbers.join(', ')} → ${entry.matches} Treffer</span>
+                        <span class="history-item-time">#${history.length - index} · ${time}</span>
+                        <span class="history-item-numbers">${entry.numbers.join(' · ')}</span>
                     </div>
                 `;
             }).join('');
-        }
-
-        function updateStats() {
-            const totalGames = history.length;
-            const totalMatches = history.filter(e => e.matches === 6).length;
-            const bestMatch = history.length > 0 ? Math.max(...history.map(e => e.matches)) : 0;
-
-            document.getElementById('statGames').textContent = totalGames;
-            document.getElementById('statMatches').textContent = totalMatches;
-            document.getElementById('statBest').textContent = bestMatch;
         }
 
         function clearHistory() {
@@ -525,13 +343,12 @@
                 history = [];
                 localStorage.removeItem('lottoHistory');
                 updateHistory();
-                updateStats();
+                document.getElementById('numbersDisplay').innerHTML = '';
             }
         }
 
         // Initialize
         updateHistory();
-        updateStats();
     </script>
 </body>
 </html>
